@@ -1,4 +1,10 @@
 {
+  "name": "assistant-frontent",
+  "source": "assets/index.html",
+  "scripts": {
+    "start": "parcel assets/dev-index.html --no-cache",
+    "build": "parcel build assets/index.html"
+  },
   "devDependencies": {
     "parcel": "^2.9.3",
     "typescript": "^5.1.6"

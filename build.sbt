@@ -171,7 +171,7 @@ lazy val frontend = (project in file("modules/frontend"))
   .settings(Dependencies.exampleBasedTest)
   .settings(
     name                := "study-assistant-frontend",
-    Compile / mainClass := Some("com.previwave.chatbot.frontend.FrontendMain"),
+    Compile / mainClass := Some("dev.nocold.assistant.frontend.FrontendMain"),
     scalaJSUseMainModuleInitializer := true,
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     scalaJSLinkerConfig ~= { _.withSourceMap(false) },
