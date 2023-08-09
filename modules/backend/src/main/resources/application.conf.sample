@@ -7,7 +7,7 @@ open-ai {
   api-key = "sk-blabla"
 }
 
-login = [
+login {
   "student0" {
     salt = "01234567-89ab-cdef-0123-456789abcd"
     password-hash = "0123456789abcdef0123456789abcdef"
@@ -16,6 +16,6 @@ login = [
     salt = "01234567-89ab-cdef-0123-456789abcd"
     password-hash = "0123456789abcdef0123456789abcdef"
   }
-]
+}
 
 system-msg = "당신은 학습을 도와주는 학습 챗봇입니다."

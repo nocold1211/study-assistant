@@ -1,7 +1,9 @@
 package dev.nocold.assistant
 package backend
 
-import cats.effect.{ExitCode, IO, IOApp, Resource}
+import java.util.UUID
+
+import cats.effect.{ExitCode, IO, IOApp, Ref, Resource}
 import cats.effect.std.SecureRandom
 
 import openai.OpenAiClient
@@ -14,7 +16,9 @@ object BackendMain extends IOApp:
       given OpenAiClient[IO] <- OpenAiClient.make[IO](conf.openAi.apiKey)
       given SecureRandom[IO] <- Resource.eval:
         SecureRandom.javaSecuritySecureRandom[IO]
-//      _ <- BackendApp.resource[IO](conf)
+      session <- Resource.eval:
+        Ref[IO].of(Set.empty[UUID])
+      _ <- BackendApp.resource[IO](conf, session)
     yield ()
 
     resource.useForever.as(ExitCode.Success)

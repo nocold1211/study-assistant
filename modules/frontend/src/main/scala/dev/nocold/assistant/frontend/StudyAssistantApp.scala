@@ -139,7 +139,7 @@ trait StudyAssistantApp[F[_]: Async: ApiClient.Ref]
     case LoginModel(username, password) =>
       div(id := "loginPage")(
         h1("Study Assistant"),
-        h2("Log In / Sign Up"),
+        h2("Log In"),
         form(
           label(_for := "username")("Username"),
           input(
@@ -159,7 +159,7 @@ trait StudyAssistantApp[F[_]: Async: ApiClient.Ref]
           ),
           input(
             `type` := "submit",
-            value  := "Log In / Sign Up",
+            value  := "Log In",
             onClick(LoginMsg.Submit),
           ),
         ),
