@@ -10,6 +10,7 @@ val V = new {
   val pureconfig = "0.17.4"
   val jasync     = "2.2.2"
   val sttpOpenAi = "0.0.7"
+  val scodecBits = "1.1.37"
 
   val quill      = "4.6.0.1"
   val liquibase  = "4.23.0"
@@ -39,6 +40,7 @@ val Dependencies = new {
       "com.softwaremill.sttp.client3" %% "armeria-backend-cats" % V.sttp,
       "com.softwaremill.sttp.openai"  %% "core"                 % V.sttpOpenAi,
       "com.softwaremill.sttp.client4" %% "armeria-backend-cats" % V.sttp4,
+      "org.scodec"                    %% "scodec-bits"          % V.scodecBits,
     ),
     excludeDependencies ++= Seq(
       "com.lihaoyi" % "geny_2.13",
