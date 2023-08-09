@@ -5,7 +5,7 @@ val V = new {
   val catsEffect = "3.5.1"
   val tapir      = "1.6.4"
   val sttp       = "3.8.16"
-  val sttp4      = "4.0.0-M2"
+  val sttp4      = "4.0.0-M1"
 
   val pureconfig = "0.17.4"
   val jasync     = "2.2.2"
@@ -16,13 +16,13 @@ val V = new {
   val pgEmbedded = "1.0.1"
   val postgresql = "42.6.0"
 
-  val tyrian        = "0.7.0"
+  val tyrian        = "0.7.1"
   val scalaJavaTime = "2.5.0"
 
   val organiseImports = "0.6.0"
   val zerowaste       = "0.2.7"
 
-  val scribe          = "3.11.8"
+  val scribe          = "3.11.9"
   val hedgehog        = "0.10.1"
   val munitCatsEffect = "2.0.0-M3"
 }
