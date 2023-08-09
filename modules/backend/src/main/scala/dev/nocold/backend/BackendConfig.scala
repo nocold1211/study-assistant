@@ -1,5 +1,9 @@
 package dev.nocold.assistant.backend
 
+import java.util.UUID
+
+import scala.util.Try
+
 import cats.syntax.either.*
 
 import pureconfig.*
@@ -20,7 +24,7 @@ object BackendConfig:
   def load: BackendConfig = ConfigSource.default.loadOrThrow[BackendConfig]
 
   final case class LoginConfig(
-      salt: String,
+      salt: UUID,
       passwordHash: ByteVector,
   ) derives ConfigReader
 
@@ -31,6 +35,11 @@ object BackendConfig:
   final case class OpenAiConfig(
       apiKey: String,
   ) derives ConfigReader
+
+  given uuidConfigReader: ConfigReader[UUID] =
+    ConfigReader[String].emap: str =>
+      Try(UUID.fromString(str)).toEither.leftMap: msg =>
+        CannotConvert(str, "UUID", msg.getMessage)
 
   given byteVectorConfigReader: ConfigReader[ByteVector] =
     ConfigReader[String].emap: str =>
