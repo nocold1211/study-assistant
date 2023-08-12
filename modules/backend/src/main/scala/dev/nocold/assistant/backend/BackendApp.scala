@@ -12,7 +12,7 @@ import sttp.tapir.server.armeria.cats.{
   ArmeriaCatsServerInterpreter,
   ArmeriaCatsServerOptions,
 }
-import sttp.tapir.server.interceptor.cors.CORSInterceptor
+import sttp.tapir.server.interceptor.cors.{CORSConfig, CORSInterceptor}
 import sttp.tapir.server.interceptor.log.DefaultServerLog
 
 import common.AssistantApi
@@ -76,9 +76,12 @@ object BackendApp:
         (msg: String, ex: Throwable) => Async[F].delay(scribe.warn(msg, ex)),
       noLog = Async[F].pure(()),
     )
+
     val serverOptions = ArmeriaCatsServerOptions
       .customiseInterceptors[F](dispatcher)
-      .corsInterceptor(CORSInterceptor.default)
+      .corsInterceptor(CORSInterceptor.customOrThrow(CORSConfig.default.copy(
+        allowedMethods = CORSConfig.AllowedMethods.All,
+      )))
       .serverLog(serverLog)
       .options
     val tapirService = ArmeriaCatsServerInterpreter[F](serverOptions)
