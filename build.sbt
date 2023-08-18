@@ -12,11 +12,6 @@ val V = new {
   val sttpOpenAi = "0.0.7"
   val scodecBits = "1.1.37"
 
-  val quill      = "4.6.0.1"
-  val liquibase  = "4.23.0"
-  val pgEmbedded = "1.0.1"
-  val postgresql = "42.6.0"
-
   val tyrian        = "0.7.1"
   val scalaJavaTime = "2.5.0"
 
@@ -69,17 +64,6 @@ val Dependencies = new {
   lazy val commonJS = Seq(
   )
 
-  lazy val dbAccess = Seq(
-    libraryDependencies ++= Seq(
-      "org.typelevel"           %% "cats-effect"           % V.catsEffect,
-      "io.getquill"             %% "quill-jasync-postgres" % V.quill,
-      "com.outr"                %% "scribe-slf4j"          % V.scribe,
-      "org.liquibase"            % "liquibase-core"        % V.liquibase,
-      "com.opentable.components" % "otj-pg-embedded"       % V.pgEmbedded % Test,
-    ),
-    Test / fork := true,
-  )
-
   lazy val exampleBasedTest = Def.settings(
     libraryDependencies ++= Seq(
       "org.typelevel" %% "munit-cats-effect" % V.munitCatsEffect % Test,
@@ -102,8 +86,11 @@ ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports"
 ThisBuild / semanticdbEnabled := true
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
+lazy val root = (project in file("."))
+  .aggregate(frontend, backend)
+
 lazy val common = crossProject(JSPlatform, JVMPlatform)
-  .crossType(CrossType.Full)
+  .crossType(CrossType.Pure)
   .in(file("modules/common"))
   .settings(Dependencies.common)
   .settings(Dependencies.exampleBasedTest)
@@ -152,20 +139,6 @@ lazy val backend = (project in file("modules/backend"))
   )
   .dependsOn(common.jvm, dbAccess)
 
-lazy val dbAccess = (project in file("modules/db-access"))
-  .settings(Dependencies.dbAccess)
-  .settings(Dependencies.exampleBasedTest)
-  .settings(
-    scalacOptions ++= Seq(
-//      "-explain",
-      "-Wunused:all",
-    ),
-    Compile / compile / wartremoverErrors ++= Warts.allBut(
-      Wart.TripleQuestionMark,
-      Wart.Overloading,
-    ),
-  )
-
 lazy val frontend = (project in file("modules/frontend"))
   .enablePlugins(ScalaJSPlugin)
   .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
@@ -192,16 +165,3 @@ lazy val frontend = (project in file("modules/frontend"))
     stIgnore ++= List("parcel"),
   )
   .dependsOn(common.js)
-
-// Liquibase config
-//import com.permutive.sbtliquibase.SbtLiquibase
-//
-//enablePlugins(SbtLiquibase)
-//
-//liquibaseDriver := "org.postgresql.Driver"
-//
-//libraryDependencies += "org.postgresql" % "postgresql" % V.postgresql % Provided
-//
-//liquibaseChangelog := file(
-//  "modules/db-access/src/main/migrations/changelog.xml",
-//)
